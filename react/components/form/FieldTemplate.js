@@ -1,38 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function Label(props) {
-  const { label, required, id, type } = props
-  if (!label) {
-    return <div />
-  }
-  return (
-    <label className="control-label f6 db gray" htmlFor={id}>
-      {label}
-      {required && <span className="required">*</span>}
-    </label>
-  )
-}
+Label = ({ id, label, required }) =>
+  <label className="control-label f6 db gray" htmlFor={id}>
+    {label}
+    {required && <span className="required">*</span>}
+  </label>
 
 Label.propTypes = {
   id: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   required: PropTypes.bool,
 }
 
 export default function FieldTemplate(props) {
   const {
-    id,
-    classNames,
-    label,
     children,
-    errors,
-    help,
+    classNames,
     description,
+    help,
     hidden,
+    id,
+    label,
     required,
     schema,
-    rawErrors,
   } = props
 
   if (hidden) {
@@ -41,7 +32,7 @@ export default function FieldTemplate(props) {
 
   return (
     <div className={`${classNames} w-100`}>
-      {schema.type === 'object' && <Label label={label} required={required} id={id} />}
+      {schema.type === 'object' && label && <Label id={id} label={label} required={required} />}
       {schema.type === 'object' && description}
       {children}
       {help}
@@ -50,15 +41,13 @@ export default function FieldTemplate(props) {
 }
 
 FieldTemplate.propTypes = {
-  id: PropTypes.string,
   classNames: PropTypes.string,
-  label: PropTypes.string,
-  help: PropTypes.element,
-  required: PropTypes.bool,
-  description: PropTypes.element,
-  errors: PropTypes.object,
   children: PropTypes.element,
-  displayLabel: PropTypes.bool,
+  description: PropTypes.element,
+  help: PropTypes.element,
   hidden: PropTypes.bool,
-  rawErrors: PropTypes.arrayOf(PropTypes.string),
+  id: PropTypes.string,
+  label: PropTypes.string,
+  required: PropTypes.bool,
+  schema: PropTypes.object.isRequired,
 }
