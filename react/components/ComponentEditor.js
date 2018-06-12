@@ -54,6 +54,7 @@ class ComponentEditor extends Component {
 
     this.state = {
       saving: false,
+      viewMode: 'layout',
     }
 
     this.old = JSON.stringify({
@@ -163,6 +164,13 @@ class ComponentEditor extends Component {
     this.context.editExtensionPoint(null)
     delete this.old
     event && event.stopPropagation()
+  }
+
+  handleViewModeSwitch = newViewMode => {
+    if (newViewMode !== this.state.viewMode) {
+      this.setState({ viewMode: newViewMode })
+    }
+    console.log('a')
   }
 
   isEmptyExtensionPoint = (component) =>
@@ -328,6 +336,7 @@ class ComponentEditor extends Component {
               </button>
             </div>
             <div id="form__error-list-template___alert" />
+
             <div className="flex-auto overflow-y-scroll form-schema">
               <Form
                 schema={schema}
